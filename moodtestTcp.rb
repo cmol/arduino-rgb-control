@@ -2,8 +2,9 @@
 
 require 'audioinfo'
 require 'socket'
+require '../mplayer-ruby/lib/mplayer-ruby'
 
-sock = TCPSocket.new '172.16.0.26', 2000
+sock = TCPSocket.new '172.16.0.5', 2000
 
 song_file = ARGV[0]
 
@@ -30,9 +31,7 @@ puts "Reading .mood file.."
   samples << [bytes[sam*3],bytes[sam*3+1],bytes[sam*3+2]].map{ |x| x==10 ? 11 : x }
 end
 
-fork {
-  `mplayer "#{song_file}"`
-}
+player = MPlayer::Slave.new(song_file)
 
 sleep(0.250)
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'socket'
 
-sock = TCPSocket.new '172.16.0.26', 2000
+sock = TCPSocket.new '172.16.0.5', 2000
 
 loop do
   puts "Input color and fadetime: (\"0-255 0-255 0-255 0-255\") (q to quit)"
