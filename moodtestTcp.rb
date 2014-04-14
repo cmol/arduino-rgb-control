@@ -4,7 +4,7 @@ require 'audioinfo'
 require 'socket'
 require '../mplayer-ruby/lib/mplayer-ruby'
 
-sock = TCPSocket.new '172.16.0.5', 2000
+sock = TCPSocket.new '172.16.0.23', 2000
 
 song_file = ARGV[0]
 

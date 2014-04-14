@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'socket'
 
-sock = TCPSocket.new '172.16.0.26', 2000
+sock = TCPSocket.new '172.16.0.23', 2000
 
 (0..5).each do |b|
   (0..5).each do |g|
