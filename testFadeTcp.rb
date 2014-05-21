@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 require 'socket'
+require 'json'
 
-sock = TCPSocket.new '172.16.0.5', 2000
+config = JSON.parse(File.read('config.json'))
+sock = TCPSocket.new config["address"], config["port"]
 
 loop do
   puts "Input color and fadetime: (\"0-255 0-255 0-255 0-255\") (q to quit)"

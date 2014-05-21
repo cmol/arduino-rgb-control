@@ -3,8 +3,10 @@
 require 'audioinfo'
 require 'socket'
 require '../mplayer-ruby/lib/mplayer-ruby'
+require 'json'
 
-sock = TCPSocket.new '172.16.0.23', 2000
+config = JSON.parse(File.read('config.json'))
+sock = TCPSocket.new config["address"], config["port"]
 
 song_file = ARGV[0]
 

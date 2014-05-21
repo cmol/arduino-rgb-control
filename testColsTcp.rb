@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 require 'socket'
+require 'json'
 
-sock = TCPSocket.new '172.16.0.23', 2000
+config = JSON.parse(File.read('config.json'))
+sock = TCPSocket.new config["address"], config["port"]
 
 (0..5).each do |b|
   (0..5).each do |g|
