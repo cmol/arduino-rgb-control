@@ -49,7 +49,7 @@ samples.each do | sample |
   s.insert(-1, 5)
   sp.write(s.pack("CCCCC"))
 
-  puts s.join(",")
+  puts "\r"+s.join(",")
   sleep(song_length.to_f/1000)
 end
 
