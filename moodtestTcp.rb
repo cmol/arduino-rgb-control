@@ -23,24 +23,23 @@ end
 path_to_mood = "/tmp/#{md5}.mood"
 
 unless File.exist?(path_to_mood)
-  puts "Generating moodbar.."
+  print "Generating moodbar.."
   `moodbar -o #{path_to_mood} "#{song_file}"`
 end
 
+print "\r   R   G   B        \n"
 
 samples = []
 
 s = File.binread(path_to_mood)
 bytes = s.unpack("C*")
 
-puts "Reading .mood file.."
+# Read the mood file
 (1...1000).each do | sam |
   samples << [bytes[sam*3],bytes[sam*3+1],bytes[sam*3+2]].map{ |x| x==10 ? 11 : x }
 end
 
 player = MPlayer::Slave.new(song_file)
-
-#sleep(0.250)
 
 samples.each do | sample |
   lamp = (lamp == 3) ? 0 : lamp+1
@@ -59,4 +58,5 @@ samples.each do | sample |
   sleep(song_length.to_f/1000)
 end
 
+player.
 sock.close
