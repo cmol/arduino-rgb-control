@@ -22,7 +22,7 @@ end
 
 path_to_mood = "/tmp/#{md5}.mood"
 
-unless File.exist?(path_to_mood)
+unless File.exist?(path_to_mood) && File.size(path_to_mood) == 3000
   print "Generating moodbar.."
   `moodbar -o #{path_to_mood} "#{song_file}"`
 end
@@ -58,5 +58,6 @@ samples.each do | sample |
   sleep(song_length.to_f/1000)
 end
 
-player.
+print "\n"
+
 sock.close
