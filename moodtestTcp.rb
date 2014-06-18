@@ -27,7 +27,10 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-raise OptionParser::MissingArgument if options[:path].nil?
+if options[:path].nil?
+  puts "Missing argument -p path_to_song. Exiting..."
+  exit
+end
 
 config = JSON.parse(File.read('config.json'))
 sock = TCPSocket.new config["address"], config["port"] unless options[:dry]
