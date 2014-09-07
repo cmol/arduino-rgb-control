@@ -66,6 +66,10 @@ bytes = s.unpack("C*")
   samples << [bytes[sam*3],bytes[sam*3+1],bytes[sam*3+2]].map{ |x| x==10 ? 11 : x }
 end
 
+# Fade length
+fade_length=(song_length.to_f/100.0).floor
+fade_length=fade_length*4 if options[:sequential]
+
 # Start playing the file. It fast forwards to the real data before returning
 player = MPlayer::Slave.new(song_file)
 
@@ -77,7 +81,7 @@ samples.each do | sample |
   end
   data = 0b00000001 | (lamp << 5)
   sample.insert(0, data)
-  sample.insert(-1, 1)
+  sample.insert(-1, fade_length)
   sock.puts(sample.pack("CCCCC")) unless options[:dry]
 
   sample.shift
