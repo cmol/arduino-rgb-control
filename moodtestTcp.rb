@@ -108,6 +108,6 @@ ARGV.each do | song_file |
   print "\r\e[1A"
 end
 
-print "\n"
+print "\e[1A\r\033[K2"
 
 sock.close unless options[:dry]
