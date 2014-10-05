@@ -35,8 +35,6 @@ end
 config = JSON.parse(File.read('config.json'))
 sock = TCPSocket.new config["address"], config["port"] unless options[:dry]
 
-song_file = ARGV.first
-
 ARGV.each do | song_file |
 
   lamp = 3
@@ -71,8 +69,10 @@ ARGV.each do | song_file |
   end
 
   # Fade length
-  fade_length=(song_length.to_f/100.0).floor
+  fade_length=(song_length.to_f/100.0)
   fade_length=fade_length*4 if options[:sequential]
+  fade_length=fade_length.floor
+  fade_length=1 if fade_length == 0
 
   # Start playing the file. It fast forwards to the real data before returning
   player = MPlayer::Slave.new(song_file) unless options[:no_audio]
@@ -103,7 +103,7 @@ ARGV.each do | song_file |
     sleep(song_length.to_f/1000)
   end
 
-  player.quit
+  player.quit if player
 
   print "\r\e[1A"
 end
