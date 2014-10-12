@@ -73,7 +73,12 @@ ARGV.each do | song_file |
   fade_length=fade_length*4 if options[:sequential]
   fade_length=(fade_length.to_f/10.0).ceil
   fade_length=1 if fade_length == 0
-  puts fade_length
+
+  fade = []
+  (0..2).each do | sig |
+    fade[sig] = fade_length & 0xff
+    fade_length = fade_length >> 8
+  end
 
   # Start playing the file. It fast forwards to the real data before returning
   player = MPlayer::Slave.new(song_file) unless options[:no_audio]
@@ -86,9 +91,10 @@ ARGV.each do | song_file |
     end
     data = 0b00000010 | (lamp << 5)
     sample.insert(0, data)
-    sample.insert(-1, fade_length & 0xff0000)
-    sample.insert(-1, fade_length & 0x00ff00)
-    sample.insert(-1, fade_length & 0x0000ff)
+
+    sample.insert(-1, fade[2])
+    sample.insert(-1, fade[1])
+    sample.insert(-1, fade[0])
     sock.puts(sample.pack("CCCCCCC")) unless options[:dry]
 
     sample.shift
