@@ -2,7 +2,7 @@
 
 require 'audioinfo'
 require 'socket'
-require '../mplayer-ruby/lib/mplayer-ruby'
+require_relative '../mplayer-ruby/lib/mplayer-ruby'
 require 'json'
 require 'digest'
 require 'optparse'
@@ -73,6 +73,7 @@ ARGV.each do | song_file |
   fade_length=fade_length*4 if options[:sequential]
   fade_length=(fade_length.to_f/10.0).ceil
   fade_length=1 if fade_length == 0
+  fade_length+=1 if fade_length == 10 || fade_length == 13
 
   fade = []
   (0..2).each do | sig |
@@ -114,7 +115,11 @@ ARGV.each do | song_file |
     sleep(song_length.to_f/1000)
   end
 
-  player.quit if player
+  begin
+    player.quit if player
+  rescue
+  end
+
 
   print "\r\e[1A"
 end
